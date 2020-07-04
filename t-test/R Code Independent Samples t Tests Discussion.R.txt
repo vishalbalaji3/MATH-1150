@@ -1,0 +1,488 @@
+###############################################################
+## MATH/QMGT-1150                                            ##
+## R Code: Chapter 9 - Single-Sample t-Tests                 ##
+##                     Independed Samples t-Tests            ##
+##                                                           ##
+## Field, A. P., Miles, J. N. V., & Field, Z. C. (2012).     ##
+## Discovering Statistics Using R                            ##
+##                                                           ##
+## (c) 2011 Andy P. Field, Jeremy N. V. Miles & Zoe C. Field ##
+###############################################################
+
+###############################################################
+###############################################################
+### Set the working directory 
+
+#setwd()
+
+getwd()
+
+###############################################################
+###############################################################
+### Load packages
+
+library(ggplot2)
+library(pastecs)
+library(reshape)
+library(Hmisc)
+library(WRS)
+library(psych)
+
+
+###############################################################
+###############################################################
+## Create a directory to store your graphs/images.
+## First, create a subfolder in stats named "images".
+
+#imageDirectory<-""
+
+
+
+###############################################################
+###############################################################
+## Import data in long format
+
+
+###############################################################
+###############################################################
+## Single Sample t-Test
+
+###############################################################
+###############################################################
+## Regular hours for a person who weeks 40 hours per week over
+## 4 weeks would be 160 hours.
+##
+## Is the average hours worked in the satisfaction data 
+## statistically significantly different that 160?
+
+
+
+
+
+
+
+###############################################################
+###############################################################
+## Interpretation
+##
+
+
+
+
+###############################################################
+###############################################################
+## Each year, the company sets a target for average employee
+## evaluation score.  Last year, the average score was 71%.
+## This year, the company set a goal of 71.5%
+##
+## The average employee evaluation score goal is 71.5% (or .715).
+##
+## Are this year's resulsts statistically significantly 
+## different than the goal?
+
+
+
+
+
+
+###############################################################
+###############################################################
+## Interpretation
+
+
+
+
+
+
+
+
+###############################################################
+###############################################################
+## This year's average employee evaluation score (M = 71.6%) is
+## actually higher than 71.5%.
+##
+## Are this year's results statistically significantly 
+## higher than the goal?
+
+
+
+
+###############################################################
+###############################################################
+## Interpretation
+##
+
+
+
+
+
+## Are this year's results statistically significantly 
+## higher than 71%? 
+
+
+
+
+
+###############################################################
+###############################################################
+## Interpretation
+##
+
+
+
+
+
+## What if I want a 99% confidence interval? 
+## What is the interpretation?
+
+
+
+
+###############################################################
+###############################################################
+## Interpretation
+##
+
+
+
+###############################################################
+###############################################################
+## 
+## Your turn.
+##
+## When data were collected last year, the average years spent
+## with the company was 3.475.
+##
+## Is the higher average years this year statistically significantly 
+## higher than last year?
+##
+## Include a 90% confidence interval?
+
+
+
+
+
+
+
+
+###############################################################
+###############################################################
+## Interpretation
+##
+
+
+
+###############################################################
+###############################################################
+## Homework:
+## The csv file '2011_Home_Sales.csv' contains data for 104
+## houses across the US.  The "Sale Price" variable represents
+## the sales price of the house in 2011.
+##
+## Assume that the average sales price for homes in those 
+## neighborhoods in 2011 was $162,487.
+##
+## Using an alpha of 0.05, did these homes sell significantly 
+## higher than the average selling price for the neighborhood?
+##
+## If you use an alpha of 0.01, did these homes sell significantly 
+## higher than the average selling price for the neighborhood?
+##
+## Find and interprent a 92% confidence interval for the 2011
+## average selling price for these neighborhoods.
+##
+## Write up your results in a Word document using APA format.
+## Include at the end of the document, a copy of your output
+## from the console window.
+
+###############################################################
+###############################################################
+
+###############################################################
+###############################################################
+## Dependent Samples t-Test                                  ##
+###############################################################
+###############################################################
+
+###############################################################
+###############################################################
+## Import data in long format
+
+
+
+## Remember that satisfaction had 15,000 observations.
+## Let's randomly sample to get a smaller dataframe of 100.
+##
+## Put the sample in a dataframe named satisfaction1
+
+
+###############################################################
+###############################################################
+## We know that the average employee satisfaction score for last
+## year was 71%.  We also know that the company set a goal of 71.5%
+## for this year's average employee satisfaction score.
+##
+## Previously, we checked to see if this year's results significantly 
+## different than the goal.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###############################################################
+###############################################################
+## Although there is no significant difference between this year's
+## average score and the goal for this year, we're also interested
+## in whether employees who left the company possibly left
+## because they were less satisfied with the company.
+## 
+## To do so, we can do an independent samples t-test (either an 
+## employee left or didn't leave, so every employee will be in
+## one group or the other.)
+##
+## We do the independent samples t-test using the same t.test
+## function we used when we did the single-sample t-test, we
+## just give the function different information to let it know
+## we're doing an independent samples t-test.
+##
+## Remember that with a single-sample t-test, we're comparing
+## to a population mean (or to a criteria), like we did when we
+## compared the current year's average satisfaction score to the
+## 71.5% (0.715) goal.  The function new it was a single sample
+## because we included only one variable and the mu = .715
+## argument.  
+##
+## We can use the "Help" window to see what arguments we need.
+
+## We can see the variables in a dataframe using ls()
+
+
+
+## We need to check assumptions.
+##
+## 1. Sampling distribution is normally distributed.
+## 2. Data are measured at least at the interval level.
+## 3. Scores in each group come from different people (independent).
+## 4. Homogeneity of Variance.
+
+## First step is to look at our data.
+
+###############################################################
+###############################################################
+## Lets look at the satisfaction level variable using
+## a histogram.
+
+
+
+
+
+
+## Data are negatively skewed, but it's ok. We're assuming 
+## the population is normally distributed, not the sample.
+
+###############################################################
+###############################################################
+## Let's save the plot.
+##
+## To do so, we need to create the function that allows us
+## to save graphs in the image directory.
+
+
+
+
+
+
+## Now we can save the plot.
+## Name it "Satisfaction Level Histogram.png"
+
+
+###############################################################
+###############################################################
+## Lets look at whether employees left using a bar chart.
+
+
+
+
+
+## Save the plot as "Left or Retained Bar Chart.png"
+
+
+###############################################################
+###############################################################
+## Let's look at variability using a box plot.
+
+
+
+
+ 
+
+## We have a problem.  R sees "left_company" as a continuous
+## variable instead of a grouping variable, so we need to
+## fix that.
+##
+## Create a new factor variable named 'left_factor'
+
+
+
+## Now let's see what happens
+
+
+
+
+
+  
+
+## Homogeneity of Variance is violated, but it's OK.  
+## The R function is built to accommodate a violotion
+## of the Homogeneity of Variance assumption using
+## the "Welch approximation."
+
+## Now that we've looked at the data and the assumptions, 
+## we can do the independent t-test.
+## 
+## We'll store the results in a list so that we can use it later.
+
+
+
+## Remember, we'll need Standard Deviation to report our results
+
+by(satisfaction1$satisfaction_level,satisfaction1$left_factor,sd)
+
+###############################################################
+###############################################################
+## So, what does this mean?
+##
+## On average, employees who later left the company (M = 0.56, SD = 0.28)
+## were more likely to have a lower satisfaction score than
+## employees who remained with the company (M = 0.70, SD = 0.19), which is  
+## significant, t(30.876) = 2.37, p = 0.01.
+##
+## We are 95% confident that employees who remained with the company
+## scored at least .0397 higher on the satisfaction scale.
+##
+## -- OR --
+##
+## We are 95% confident that employees who left the company
+## scored at least .0397 lower on the satisfaction scale.
+
+
+
+###############################################################
+###############################################################
+##
+## Another Example
+##
+## Labor negotiations are always complex.  Suppose that in 2014
+## the city of San Francisco was negotiating contracts with
+## its transit authority supervisors.  Transity authority 
+## supervisors felt that their pay should be similar to
+## EMT/Firefighters, but claimed they were paid substantially 
+## less.  
+##
+## The city of San Francisco has hired us to explore the merits
+## of the claim by the transit authority supervisors.  That is,
+## are transit authority supervisors paid significantly less
+## than EMT/Firefighters.  
+##
+## Regardless of our own opinion about the merits of paying
+## transit supervisors equal to EMT/Firefighters, are the
+## supervisors paid significantly less than EMT/Firefighters?
+##
+## The data can be found in the San_Francisco_Salaries_2014.csv
+## file on Course Connect.
+
+###############################################################
+###############################################################
+## Import the data 
+
+
+## What's in the dataframe?
+
+
+## We need to check assumptions.
+##
+## 1. Sampling distribution is normally distributed.
+## 2. Data are measured at least at the interval level.
+## 3. Scores in each group come from different people (independent).
+## 4. Homogeneity of Variance.
+
+## First step is to look at our data.
+
+###############################################################
+###############################################################
+## Lets look at the Total Pay & Benefits variable using
+## a histogram.
+
+
+
+
+## Data are positively skewed, but it's ok. We're assuming 
+## the population is normally distributed, not the sample.
+
+###############################################################
+###############################################################
+## Let's save the plot.
+##
+
+
+
+
+
+###############################################################
+###############################################################
+## Lets look at the occupation variable  using a bar chart.
+
+
+
+
+
+## Save the plot as "Left or Retained Bar Chart.png"
+
+
+###############################################################
+###############################################################
+## Let's look at variability using a box plot.
+
+
+
+
+
+## Homogeneity of Variance is violated, but fortunately the 
+## t-test function will accommodate the violation.
+
+## Now that we've looked at the data and the assumptions, 
+## we can do the independent t-test.  Because its a labor
+## negotiation, let's do a 99% confidence interval.
+
+
+
+
+## Get the Standard Deviation to report our results
+
+
+
+###############################################################
+###############################################################
+## So, what does this mean?
+##
+## 
+##  
+##  
+## 
+##
+##  
+## 

@@ -1,0 +1,323 @@
+###############################################################
+## MATH/QMGT-1150                                            ##
+## R Code: Chapter 9 - Single-Sample t-Tests                 ##
+##                                                           ##
+## Field, A. P., Miles, J. N. V., & Field, Z. C. (2012).     ##
+## Discovering Statistics Using R                            ##
+##                                                           ##
+## (c) 2011 Andy P. Field, Jeremy N. V. Miles & Zoe C. Field ##
+###############################################################
+
+###############################################################
+###############################################################
+### Set the working directory 
+
+setwd("M:/My Documents/math1150_stats/t-test")
+
+getwd()
+
+###############################################################
+###############################################################
+### Load packages
+
+library(ggplot2)
+library(pastecs)
+library(reshape)
+library(Hmisc)
+library(WRS)
+library(psych)
+
+
+###############################################################
+###############################################################
+## Create a directory to store your graphs/images.
+## First, create a subfolder in stats named "images".
+
+imageDirectory <- "M:/My Documents/math1150_stats/t-test/images_t-test"
+
+
+
+###############################################################
+###############################################################
+## Import data in long format
+
+employeeSatisfactionData <- read.csv("Employee_Satisfaction.csv", header = TRUE)
+
+
+
+###############################################################
+###############################################################
+## Single Sample t-Test
+
+###############################################################
+###############################################################
+## Regular hours for a person who weeks 40 hours per week over
+## 4 weeks would be 160 hours.
+##
+## Is the average hours worked in the satisfaction data 
+## statistically significantly different that 160?
+
+t.test(employeeSatisfactionData$average_monthly_hours, mu = 160)
+
+
+
+
+
+
+
+
+###############################################################
+###############################################################
+## Interpretation
+
+# on average, employees worked more than 160 hours per month (m = 201.05, SE = 0.41), which is 
+# significant, t(14999) = 100.67, p < 0.0001
+# we are 95% confident that the true average hours worked is between 200.25 and 201.85
+
+## df means degrees of freedom
+
+# gives SE and sd
+describe(employeeSatisfactionData$average_monthly_hours)
+
+
+
+###############################################################
+###############################################################
+## Each year, the company sets a target for average employee
+## evaluation score.  Last year, the average score was 71%.
+## This year, the company set a goal of 71.5%
+##
+## The average employee evaluation score goal is 71.5% (or .715).
+##
+## Are this year's results statistically significantly 
+## different than the goal?
+
+t.test(employeeSatisfactionData$last_evaluation_score, mu = .715)
+
+describe(employeeSatisfactionData$last_evaluation_score)
+
+# from the describe function we got that se = 0
+# therefore we should calculate it using sd and sqrt: se = sd/sqrt(n)
+
+0.17/sqrt(15000)
+
+###############################################################
+###############################################################
+## Interpretation
+
+# On average, employees scored higher than the average goal of 0.715 (M= 0.716; SE= 0.001)
+# However, this difference is not significant, t(14999) = 0.79, p= 0.431
+# because it isn't significant, we do not do a confidence interval 
+
+
+
+
+
+###############################################################
+###############################################################
+## This year's average employee evaluation score (M = 71.6%) is
+## actually higher than 71.5%.
+##
+## Are this year's results statistically significantly 
+## higher than the goal?
+
+t.test(employeeSatisfactionData$last_evaluation_score, mu = .715, alternative = "greater")
+
+
+
+###############################################################
+###############################################################
+## Interpretation
+##
+# On average, employees score higher than 0.715 (M = 0.716; SE= 0.001)
+# However, it is not signficantly higher, t(14999) = 0.79, p = 0.216
+# because it isn't significant, we do not do a confidence interval 
+
+describe(employeeSatisfactionData$last_evaluation_score)
+
+
+
+##
+## Are this year's results statistically significantly 
+## higher than 71%? 
+##
+
+t.test(employeeSatisfactionData$last_evaluation_score, mu = .71, alternative = "greater")
+
+describe(employeeSatisfactionData$last_evaluation_score)
+
+
+
+###############################################################
+###############################################################
+## Interpretation
+##
+
+# On average, employees score higher than 0.71 (M = 0.716; SE = 0.001)
+# which is significantly higher, t(14999) = 4.365, p < 0.001
+# we are 95% confident that the true average evalution score is at least 71.4%
+
+
+
+
+
+## What if I want a 99% confidence interval? 
+## What is the interpretation?
+
+t.test(employeeSatisfactionData$last_evaluation_score, mu = .71, alternative = "greater", conf.level = 0.99)
+
+describe(employeeSatisfactionData$last_evaluation_score)
+
+
+###############################################################
+###############################################################
+## Interpretation
+##
+
+# On average, employees score higher than 0.71 (M = 0.716; SE = 0.001)
+# which is significanlty higher, t(14999) = 4.365, p < 0.001
+# we are 99% confident that the true average evalution score is at least 71.3%
+
+
+
+###############################################################
+###############################################################
+## 
+## Your turn.
+##
+## When data were collected last year, the average years spent
+## with the company was 3.475.
+##
+## Is the higher average years this year statistically significantly 
+## higher than last year?
+##
+## Include a 90% confidence interval?
+
+# 95% confidence level
+t.test(employeeSatisfactionData$years_spent_at_company,  mu = 3.475, alternative = "greater")
+describe(employeeSatisfactionData$years_spent_at_company)
+
+# 90% confidence level
+t.test(employeeSatisfactionData$years_spent_at_company, mu = 3.475, alternative = "greater", conf.level = 0.90)
+describe(employeeSatisfactionData$years_spent_at_company)
+
+
+
+### to automate the process of figuring if p-value is less than confidence level/alpha
+conf <- t.test(employeeSatisfactionData$years_spent_at_company, mu = 3.475)$conf.int
+lvl <- attr(conf ,"conf.level")
+
+
+
+###############################################################
+###############################################################
+## Interpretation
+##
+
+### 95% confidence interval
+# On average, employee time with company (M = 3.498; SE = 0.01)
+# is not significantly higher than last year's avergae time of 3.475, t(14999) = 1.946, p = 0.026
+# because it isn't significant, we do not do a confidence interval
+
+### 90% confidence interval
+# On average, employee time with company (M = 3.498; SE = 0.01)
+# is signficantly higher than last year's average time of 3.475, t(14999) = 1.946, p = 0.025
+# we are 90% confident that the true average years spent with company is at least 3.483 years
+
+###############################################################
+###############################################################
+## Homework:
+## The csv file '2011_Home_Sales.csv' contains data for 104
+## houses across the US.  The "Sale Price" variable represents
+## the sales price of the house in 2011.
+##
+## Assume that the average sales price for homes in those 
+## neighborhoods in 2011 was $162,487.
+##
+## Using an alpha of 0.05, did these homes sell significantly 
+## higher than the average selling price for the neighborhood?
+##
+## If you use an alpha of 0.01, did these homes sell significantly 
+## higher than the average selling price for the neighborhood?
+##
+## Find and interprent a 92% confidence interval for the 2011
+## average selling price for these neighborhoods.
+##
+## Write up your results in a Word document using APA format.
+## Include at the end of the document, a copy of your output
+## from the console window.
+
+###############################################################
+###############################################################
+
+setwd("M:/My Documents/math1150_stats/t-test")
+getwd()
+
+library(ggplot2)
+library(pastecs)
+library(reshape)
+library(Hmisc)
+library(WRS)
+library(psych)
+
+imageDirectory <- "M:/My Documents/math1150_stats/t-test/images_t-test"
+
+
+saveInImageDirectory<-function(filename){
+  imageFile <- file.path(imageDirectory, filename)
+  ggsave(imageFile, width = 30, height = 20, units = "cm", dpi = 300)
+}
+
+
+satisfaction <- read.csv("Employee_Satisfaction.csv", header = TRUE)
+
+set.seed(5)
+satisfaction1 <- satisfaction[sample(nrow(satisfaction), 100),]
+
+hist <- ggplot(satisfaction1, aes(x = satisfaction_level))
+hist + geom_histogram(color = "black", fill = "blue", binwidth = 0.25) + 
+  ggtitle("Satisfication Level") + 
+  theme(plot.title = element_text(color = "blue", size = 28, face = "bold"))
+
+saveInImageDirectory("Satisfaction Level Histogram.png")
+
+
+
+
+bar <- ggplot(satisfaction1, aes(left_company))
+
+bar + geom_bar(fill = "tomato") + ggtitle("Left or Retained") + 
+  theme(plot.title = element_text(color="black", size=28, face="bold"))
+
+saveInImageDirectory("Left or Retained.png")
+
+
+box <- ggplot(satisfaction1, aes(left_company, satisfaction_level))
+box + geom_boxplot(width = 0.4, fill = "white") +
+  geom_jitter(width = 0.1, size = 1) +
+  labs(x = "Left Company", y = "Satisfaction Level")
+
+# running the above shows that R thinks that the left company is a number and not a factor
+# to fix this the next code is used
+# basically creates a new variable and shows that it is a factor
+
+satisfaction1[, 'left_factor'] <- factor(satisfaction1[, 'left_company'])
+
+box <- ggplot(satisfaction1, aes(left_factor, satisfaction_level))
+box + geom_boxplot(width = 0.4, fill = "white", outlier.colour = "red", outlier.shape = 1, outlier.size = 3) +
+  geom_jitter(width = 0.1, size = 1) +
+  labs(x = "Left Company", y = "Satisfaction Level")
+
+# since the homoginiety of varience is violated we need to do the Welch approximation
+
+ind.t.test <- t.test(satisfaction1$satisfaction_level ~ satisfaction1$left_factor, alternative = "greater")
+# above says take the satisfaction_level and tell me is the statistic for each group, which is the left_factorr in this case
+ind.t.test
+
+by(satisfaction1$satisfaction_level, satisfaction1$left_factor, mean)
+by(satisfaction1$satisfaction_level, satisfaction1$left_factor, sd)
+
+
+
+
+
